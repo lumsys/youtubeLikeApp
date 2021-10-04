@@ -73,4 +73,47 @@ class AuthController extends Controller
         }
         return response()->json(["status" => "failed", "error" => true, "message" => "Failed! You are already logged out."], 403);
     }
+
+    public function updateProfile(Request $request){
+        try {
+                $validator = Validator::make($request->all(),[
+                'first_name' => 'required|min:2|max:45',
+                'last_name' => 'required|min:2|max:45',
+                'other_name' => 'required|min:2|max:45',
+                'phone' => 'required',
+                'address' => 'required|min:2|max:200',
+                'state' => 'required',
+                'local_government' => '',
+                'profile_picture' => 'nullable|image'
+            ]);
+                if($validator->fails()){
+                    $error = $validator->errors()->all()[0];
+                    return response()->json(['status'=>'false', 'message'=>$error, 'data'=>[]],422);
+                }else{
+                    $user = user::find($request->user()->id);
+                    $user->first_name = $request->first_name;
+                    $user->last_name = $request->last_name;
+                    $user->phone = preg_replace('/^0/','+234',$request->phone);
+                    $user->other_name = $request->other_name;
+                    $user->address = $request->address;
+                    $user->state = $request->state;
+                    $user->local_government = $request->local_government;
+                    if($request->profile_picture && $request->profile_picture->isValid())
+                    {
+                        $file_name = time().'.'.$request->profile_picture->extension();
+                        $request->profile_picture->move(public_path('images'),$file_name);
+                        $path = "public/images/$file_name";
+                        $user->profile_picture = $path;
+                    }
+                            $user->update();
+                            return response()->json(['status'=>'true', 'message'=>"profile updated suuccessfully", 'data'=>$user]);
+                }
+    
+        }catch (\Exception $e){
+                    return response()->json(['status'=>'false', 'message'=>$e->getMessage(), 'data'=>[]], 500);
+        }
+    }
+    
+
+
 }
