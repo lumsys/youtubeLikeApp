@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::namespace('API')->group(function () {
      Route::post('login', 'AuthController@login');
      Route::post('register', 'AuthController@register');
+     Route::get('social/login', [AuthController::class, 'socialLogin']);
     
  
      Route::middleware(['auth:api'])->group(function () {
