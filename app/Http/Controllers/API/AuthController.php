@@ -102,13 +102,16 @@ class AuthController extends Controller
     public function updateProfile(Request $request){
         try {
                 $validator = Validator::make($request->all(),[
-                'first_name' => 'required|min:2|max:45',
-                'last_name' => 'required|min:2|max:45',
-                'other_name' => 'required|min:2|max:45',
-                'phone' => 'required',
-                'address' => 'required|min:2|max:200',
-                'state' => 'required',
-                'local_government' => '',
+                'last_name' => 'nullable|min:2|max:45',
+                'phone' => 'nullable',
+                'country' => 'nullable',
+                'usertype' => 'required',
+                'state' => 'nullable',
+                'facebook' => 'nullable',
+                'instalgram' => 'nullable',
+                'twitter' => 'nullable',
+                'note' => 'nullable',
+                'address' => 'nullable|min:2|max:200',
                 'profile_picture' => 'nullable|image'
             ]);
                 if($validator->fails()){
@@ -116,13 +119,16 @@ class AuthController extends Controller
                     return response()->json(['status'=>'false', 'message'=>$error, 'data'=>[]],422);
                 }else{
                     $user = user::find($request->user()->id);
-                    $user->first_name = $request->first_name;
                     $user->last_name = $request->last_name;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
-                    $user->other_name = $request->other_name;
                     $user->address = $request->address;
                     $user->state = $request->state;
-                    $user->local_government = $request->local_government;
+                    $user->usertype = $request->usertype;
+                    $user->country = $request->country;
+                    $user->facebook = $request->facebook;
+                    $user->instalgram = $request->instalgram;
+                    $user->note = $request->note;
+                    $user->twitter = $request->twitter;
                     if($request->profile_picture && $request->profile_picture->isValid())
                     {
                         $file_name = time().'.'.$request->profile_picture->extension();

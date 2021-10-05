@@ -22,9 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::post('register', 'AuthController@register');
      Route::get('social/login', [AuthController::class, 'socialLogin']);
     
- 
      Route::middleware(['auth:api'])->group(function () {
      // User Update and related activity
          Route::get('logout', 'AuthController@logout');
+          Route::post('updateProfile', 'AuthController@updateProfile');
         });
     });       
