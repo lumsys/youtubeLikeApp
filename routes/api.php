@@ -24,7 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     
      Route::middleware(['auth:api'])->group(function () {
      // User Update and related activity
-         Route::get('logout', 'AuthController@logout');
-          Route::post('updateProfile', 'AuthController@updateProfile');
+        Route::get('details', 'AuthController@details');
+        Route::get('logout', 'AuthController@logout');
+        Route::post('updateProfile', 'AuthController@updateProfile');
+        Route::post('edit/{id}', 'AuthController@edit');
         });
     });       

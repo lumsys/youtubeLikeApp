@@ -36,4 +36,9 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URI')
     ],
 
+    'youtube' => [
+        'api_key' => env('API_KEY'),
+        'search_endpoint'=> env('SEARCH_ENDPOINT')
+    ]
+
 ];

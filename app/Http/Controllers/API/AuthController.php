@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\User;
+use DB;
 
 
 class AuthController extends Controller
@@ -20,7 +21,7 @@ class AuthController extends Controller
             'name' => 'required|min:3|max:50',
             'email' => 'email',
             'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required|same:password',
+            'password_confirmation' => '|required|same:password',
         ]);
 
         $user = new User([
@@ -144,7 +145,62 @@ class AuthController extends Controller
                     return response()->json(['status'=>'false', 'message'=>$e->getMessage(), 'data'=>[]], 500);
         }
     }
+
+    public function details() {
+        try {
+            $user = Auth::user();
+            return response()->json(["status" => "success", "error" => false, "data" => $user], 200);
+        }
+        catch(NotFoundHttpException $exception) {
+            return response()->json(["status" => "failed", "error" => $exception], 401);
+        }
+    }
     
+    public function edit(Request $request, $id){    
+    {
+        //
+        $user=user::find($id);
+        $this->validate($request,[
+            'name'=>'required',
+            'email' =>'required|email|unique:users,email'.",$id",
+            'phone'=>'required',
+                'facebook' => 'nullable',
+                'instalgram' => 'nullable',
+                'twitter' => 'nullable',
+                'profile_picture' => 'nullable|image'
 
-
+        ]);
+        $name=request('name');
+        $email=request('email');
+        $phone= preg_replace('/^0/','+234',request('phone'));
+                    $facebook = request('facebook');
+                    $instalgram = request('instalgram');
+                    $twitter = request('twitter');
+        $image=request('profile_picture'); 
+        if($image){
+            $file_name = time().'.'.$request->profile_picture->extension();
+            $request->profile_picture->move(public_path('images'),$file_name);
+            $path = "public/images/$file_name";
+            $user->profile_picture = $path;
+            DB::table('users')
+                ->where('id',$id)
+                ->update([
+                    'profile_picture'=>$image,
+                ]);
+        }
+        DB::table('users')
+                ->where('id',$id)
+                ->update([
+                    'name'=>$name,
+                    'email'=>$email,
+                    'phone'=>$phone,
+                    'facebook'=>$facebook,
+                    'instalgram'=>$instalgram,
+                    'twitter'=>$twitter,
+                ]);
+       
+                return response()->json(['status'=>'true', 'message'=>"profile Edited suuccessfully"]);  
+    }
+    }
 }
+
