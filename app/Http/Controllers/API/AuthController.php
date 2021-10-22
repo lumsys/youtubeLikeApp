@@ -124,7 +124,7 @@ class AuthController extends Controller
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
                     $user->address = $request->address;
                     $user->state = $request->state;
-                    $user->usertype = $request->usertype;
+                    $user->usertype = "user";
                     $user->country = $request->country;
                     $user->facebook = $request->facebook;
                     $user->instalgram = $request->instalgram;
@@ -155,15 +155,23 @@ class AuthController extends Controller
             return response()->json(["status" => "failed", "error" => $exception], 401);
         }
     }
+
+    public function updateUsertype(Request $request)
+    {
+    $user = User::where('id', $request->user()->id)->firstOrFail(); 
+    $user->usertype = $request->usertype;
+    $user->saveOrFail();
+    return response()->json(['success' => true]);
+    }
     
     public function edit(Request $request, $id){    
     {
         //
         $user=user::find($id);
         $this->validate($request,[
-            'name'=>'required',
-            'email' =>'required|email|unique:users,email'.",$id",
-            'phone'=>'required',
+                'name'=>'required',
+                'email' =>'required|email|unique:users,email'.",$id",
+                'phone'=>'required',
                 'facebook' => 'nullable',
                 'instalgram' => 'nullable',
                 'twitter' => 'nullable',
@@ -201,6 +209,13 @@ class AuthController extends Controller
        
                 return response()->json(['status'=>'true', 'message'=>"profile Edited suuccessfully"]);  
     }
+
+
+    
     }
+
+
+
+    
 }
 

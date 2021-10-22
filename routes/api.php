@@ -28,5 +28,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('logout', 'AuthController@logout');
         Route::post('updateProfile', 'AuthController@updateProfile');
         Route::post('edit/{id}', 'AuthController@edit');
+        Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
         });
     });       
