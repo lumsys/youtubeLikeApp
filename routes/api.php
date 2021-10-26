@@ -22,6 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::post('register', 'AuthController@register');
      Route::get('social/login', [AuthController::class, 'socialLogin']);
     
+        //E-Commerce Routes Starts Here  
+        Route::post('createProduct', 'ProductController@create');
+        Route::get('allProducts', 'ProductController@getAllProducts');
+        Route::get('getProduct/{id}', 'ProductController@getProduct');
+        Route::put('UpdateProduct/{id}', 'ProductController@updateProduct');
+        Route::delete('deleteProduct/{id}', 'ProductController@deleteProduct');
+        //E-Commerce Routes Ends Here
      Route::middleware(['auth:api'])->group(function () {
      // User Update and related activity
         Route::get('details', 'AuthController@details');
@@ -29,5 +36,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::post('updateProfile', 'AuthController@updateProfile');
         Route::post('edit/{id}', 'AuthController@edit');
         Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
+
         });
     });       
