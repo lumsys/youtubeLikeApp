@@ -103,15 +103,10 @@ class AuthController extends Controller
     public function updateProfile(Request $request){
         try {
                 $validator = Validator::make($request->all(),[
+                'first_name' => 'nullable|min:2|max:45',
                 'last_name' => 'nullable|min:2|max:45',
                 'phone' => 'nullable',
-                'country' => 'nullable',
-                'usertype' => 'required',
-                'state' => 'nullable',
-                'facebook' => 'nullable',
-                'instalgram' => 'nullable',
-                'twitter' => 'nullable',
-                'note' => 'nullable',
+                'organisation' => 'nullable',
                 'address' => 'nullable|min:2|max:200',
                 'profile_picture' => 'nullable|image'
             ]);
@@ -120,16 +115,11 @@ class AuthController extends Controller
                     return response()->json(['status'=>'false', 'message'=>$error, 'data'=>[]],422);
                 }else{
                     $user = user::find($request->user()->id);
+                    $user->first_name = $request->first_name;
                     $user->last_name = $request->last_name;
+                    $user->organisation = $request->organisation;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
                     $user->address = $request->address;
-                    $user->state = $request->state;
-                    $user->usertype = "user";
-                    $user->country = $request->country;
-                    $user->facebook = $request->facebook;
-                    $user->instalgram = $request->instalgram;
-                    $user->note = $request->note;
-                    $user->twitter = $request->twitter;
                     if($request->profile_picture && $request->profile_picture->isValid())
                     {
                         $file_name = time().'.'.$request->profile_picture->extension();
@@ -145,6 +135,41 @@ class AuthController extends Controller
                     return response()->json(['status'=>'false', 'message'=>$e->getMessage(), 'data'=>[]], 500);
         }
     }
+
+
+
+    public function updateProfileLater(Request $request){
+        try {
+                $validator = Validator::make($request->all(),[
+                    'country' => 'nullable',
+                    'state' => 'nullable',
+                    'facebook' => 'nullable',
+                    'instalgram' => 'nullable',
+                    'twitter' => 'nullable',
+                    'note' => 'nullable'
+            ]);
+                if($validator->fails()){
+                    $error = $validator->errors()->all()[0];
+                    return response()->json(['status'=>'false', 'message'=>$error, 'data'=>[]],422);
+                }else{
+                    $user = user::find($request->user()->id);
+                    $user->state = $request->state;
+                    $user->country = $request->country;
+                    $user->facebook = $request->facebook;
+                    $user->instalgram = $request->instalgram;
+                    $user->note = $request->note;
+                    $user->twitter = $request->twitter;
+                            $user->update();
+                            return response()->json(['status'=>'true', 'message'=>"profile updated suuccessfully", 'data'=>$user]);
+                }
+    
+        }catch (\Exception $e){
+                    return response()->json(['status'=>'false', 'message'=>$e->getMessage(), 'data'=>[]], 500);
+        }
+    }
+
+
+
 
     public function details() {
         try {
@@ -169,17 +194,17 @@ class AuthController extends Controller
         //
         $user=user::find($id);
         $this->validate($request,[
-                'name'=>'required',
-                'email' =>'required|email|unique:users,email'.",$id",
-                'phone'=>'required',
+                'last_name'=>'nullable',
+              //  'email' =>'email|unique:users,email'.",$id",
+                'phone'=>'nullable',
                 'facebook' => 'nullable',
                 'instalgram' => 'nullable',
                 'twitter' => 'nullable',
                 'profile_picture' => 'nullable|image'
 
         ]);
-        $name=request('name');
-        $email=request('email');
+        $name=request('last_name');
+        //$email=request('email');
         $phone= preg_replace('/^0/','+234',request('phone'));
                     $facebook = request('facebook');
                     $instalgram = request('instalgram');
