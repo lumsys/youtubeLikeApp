@@ -106,7 +106,6 @@ class AuthController extends Controller
                 'first_name' => 'nullable|min:2|max:45',
                 'last_name' => 'nullable|min:2|max:45',
                 'phone' => 'nullable',
-                'organisation' => 'nullable',
                 'address' => 'nullable|min:2|max:200',
                 'profile_picture' => 'nullable|image'
             ]);
@@ -117,14 +116,13 @@ class AuthController extends Controller
                     $user = user::find($request->user()->id);
                     $user->first_name = $request->first_name;
                     $user->last_name = $request->last_name;
-                    $user->organisation = $request->organisation;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
                     $user->address = $request->address;
                     if($request->profile_picture && $request->profile_picture->isValid())
                     {
                         $file_name = time().'.'.$request->profile_picture->extension();
                         $request->profile_picture->move(public_path('images'),$file_name);
-                        $path = "public/images/$file_name";
+                        $path = "images/$file_name";
                         $user->profile_picture = $path;
                     }
                             $user->update();
@@ -145,6 +143,7 @@ class AuthController extends Controller
                     'state' => 'nullable',
                     'facebook' => 'nullable',
                     'instalgram' => 'nullable',
+                    'organisation' => 'nullable',
                     'twitter' => 'nullable',
                     'note' => 'nullable'
             ]);
@@ -157,6 +156,7 @@ class AuthController extends Controller
                     $user->country = $request->country;
                     $user->facebook = $request->facebook;
                     $user->instalgram = $request->instalgram;
+                    $user->organisation = $request->organisation;
                     $user->note = $request->note;
                     $user->twitter = $request->twitter;
                             $user->update();
