@@ -169,7 +169,6 @@ return [
          */
 
         Dawson\Youtube\YoutubeServiceProvider::class,
-        Cohensive\Embed\EmbedServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,7 +231,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Youtube' => Dawson\Youtube\Facades\Youtube::class,
-        'Embed' => Cohensive\Embed\Facades\Embed::class,
         'LaravelVideoEmbed' => Merujan99\LaravelVideoEmbed\Facades\LaravelVideoEmbed::class,
     ],
 

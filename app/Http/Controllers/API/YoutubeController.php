@@ -4,19 +4,35 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Vimeo\Laravel\Facades\Vimoe;
-use Vimeo\Laravel\VimeoManager;
+use App\video;
+use App\cate;
+use App\user;
 
 class YoutubeController extends Controller
 {
     
-    public function uploadYoutube(Request $request){
-    $video = Youtube::upload($fullPathToVideo, [
-        'title'       => $request->title,
-        'description' => $request->description,
-        'category_id' => $request->category_id,
-    ]);
-    return response()->json(['message' => 'done', $video->getVideoId()], 200);
+public function storeVideo(Request $request)
+{
+        $video = new video();
+        $video ->link =$request->input('link');
+        $video ->tag =$request->input('tag');
+        $video->user_id = $request->user()->id;
+        $category = cate::where('user_id',$request->user()->id)->first();
+        $video->category_id = $category->id;
+        $video ->description=$request->input('description');
+        if($request->video_image && $request->video_image->isValid())
+                {
+                    $file_name = time().'.'.$request->video_image->extension();
+                    $request->video_image->move(public_path('Videoimg'),$file_name);
+                    $path = "public/Videoimg/$file_name";
+                    $video->video_image = $path;
+                }
+        $video -> save();
+        $user = User::where('id',$request->user()->id)->first()->id;
+        $shows = video::where(['user_id' => $user])->get();
+        return response()->json(['success' => true, $shows]);
+        }
 }
 
-}
+
+

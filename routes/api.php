@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\YoutubeController\API;
+use App\category;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +38,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('logout', 'AuthController@logout');
         Route::post('updateProfile', 'AuthController@updateProfile');
         Route::post('updateProfiless', 'AuthController@updateProfiless');
-        Route::post('uploadImage', 'AuthController@uploadImage');
         Route::post('edit/{id}', 'AuthController@edit');
         Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
-        Route::post('uploadYoutube{id}', 'YoutubeController@uploadYoutube');
-
+        Route::post('storeVideo', 'YoutubeController@storeVideo');
+        Route::post('category', 'CategoryController@category');
         });
     });       

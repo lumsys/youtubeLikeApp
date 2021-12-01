@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controller\YoutubeController;
+// use App\Http\Controller\YoutubeController;
+use App\Http\Controller\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,10 @@ Route::get('/','YoutubeController@index')->name('index');
 Route::get('/results','YoutubeController@results')->name('result');
 Route::get('/watch','YoutubeController@watch')->name('watch');
 
+Route::get('youtube/auth', 'YoutubeController@auth');
+Route::get('youtube/callback', 'YoutubeController@callback');
+
 Route::post('post', 'YoutubeController@store')->name('upload.post');
 Route::get('upload', 'YoutubeController@store');
+
+Route::resource('video', 'VideoController');
