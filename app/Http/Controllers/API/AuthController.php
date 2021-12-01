@@ -195,7 +195,6 @@ class AuthController extends Controller
         $user=user::find($id);
         $this->validate($request,[
                 'last_name'=>'nullable',
-              //  'email' =>'email|unique:users,email'.",$id",
                 'phone'=>'nullable',
                 'facebook' => 'nullable',
                 'instalgram' => 'nullable',
@@ -204,7 +203,6 @@ class AuthController extends Controller
 
         ]);
         $name=request('last_name');
-        //$email=request('email');
         $phone= preg_replace('/^0/','+234',request('phone'));
                     $facebook = request('facebook');
                     $instalgram = request('instalgram');

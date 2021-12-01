@@ -32,6 +32,32 @@ public function storeVideo(Request $request)
         $shows = video::where(['user_id' => $user])->get();
         return response()->json(['success' => true, $shows]);
         }
+
+public function Edit(Request $request, $id)
+        {
+        $videoEdit  = video::find($id);
+        $videoEdit ->link =$request->link;
+        $videoEdit ->tag =$request->tag;
+        $videoEdit ->description=$request->description;
+        $image=request('video_image'); 
+        if($image){
+            $file_name = time().'.'.$request->profile_picture->extension();
+            $request->profile_picture->move(public_path('Videoimg'),$file_name);
+            $path = "public/Videoimg/$file_name";
+            $videoEdit->video_image = $path;
+            DB::table('video')
+                ->where('id',$id)
+                ->update([
+                    'video_image'=>$image,
+                    'link' => $videoEdit->link,
+                    'tag' => $videoEdit->tag,
+                    'description' => $videoEdit->description,
+                ]);
+                return response()->json(['status'=>'true', 'message'=>"profile Edited suuccessfully"]);  
+               
+        }
+}
+
 }
 
 
