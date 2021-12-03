@@ -58,6 +58,12 @@ public function Edit(Request $request, $id)
         }
 }
 
+public function getCate(Request $request)
+{
+        $dataCate = Cate::where('id',$request->id)->with('video')->get();
+        //dd('$dataCate');
+        return response()->json(['success' => true, $dataCate]);
+}
 }
 
 

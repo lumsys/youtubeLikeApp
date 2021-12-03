@@ -10,6 +10,6 @@ class cate extends Model
 
     public function video()  
     {  
-        return $this->hasMany('App\video');  
+        return $this->hasMany('App\video', 'category_id', 'id');  
     }  
 }

@@ -14,6 +14,6 @@ class video extends Model
 
     public function category()  
 {  
-    return $this->belongTo('App\category','category_id');  
+    return $this->belongTo('App\category','category_id', 'id');  
 }  
 }
