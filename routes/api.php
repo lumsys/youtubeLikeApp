@@ -43,5 +43,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::post('storeVideo', 'YoutubeController@storeVideo');
         Route::post('category', 'CategoryController@category');
         Route::get('getCate/{id}', 'YoutubeController@getCate');
+        Route::get('getCateList', 'CategoryController@getCateList');
         });
     });       

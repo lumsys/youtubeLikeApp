@@ -16,4 +16,10 @@ public function category(Request $request){
     $category -> save();
     return response()->json(['success' => true,]);
     }
+
+    public function getCateList()
+    {
+        $categoryList = Cate::all();
+        return response()->json(['success' => true, $categoryList]);
+    }
 }
