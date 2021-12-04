@@ -44,5 +44,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::post('category', 'CategoryController@category');
         Route::get('getCate/{id}', 'YoutubeController@getCate');
         Route::get('getCateList', 'CategoryController@getCateList');
+        Route::get('getUserList', 'AdminController@getUserList');
+        Route::get('countUser', 'AdminController@countUser');
+        Route::get('getAuthorList', 'AdminController@getAuthorList');
+        Route::get('countAuthor', 'AdminController@countAuthor');
         });
     });       
