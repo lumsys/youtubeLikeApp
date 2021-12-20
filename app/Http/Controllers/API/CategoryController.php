@@ -20,6 +20,6 @@ public function category(Request $request){
     public function getCateList()
     {
         $categoryList = Cate::all();
-        return response()->json(['success' => true, $categoryList]);
+        return response()->json($categoryList);
     }
 }
