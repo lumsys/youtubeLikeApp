@@ -18,8 +18,9 @@ public function storeVideo(Request $request)
         $video ->tag =$request->input('tag');
         $video->user_id = $request->user()->id;
         $video->cate_name = $request->input('cate_name');
-        $category = cate::where('id',$request->user()->id)->first();
-       // $video->category_id = $category->id;
+        $category = cate::where('name', $request->cate_name)->first();
+        $video->category_id = $category->id;
+        //return response()->json([$video->category_id]);
         $video ->description=$request->input('description');
         if($request->video_image && $request->video_image->isValid())
                 {
@@ -29,10 +30,17 @@ public function storeVideo(Request $request)
                     $video->video_image = $path;
                 }
         $video -> save();
-        // $user = User::where('id',$request->user()->id)->first()->id;
-        // $shows = video::where(['user_id' => $user])->get();
-        return response()->json(['success' => true]);
+        $user = User::where('id',$request->user()->id)->first()->id;
+        $shows = video::where(['user_id' => $user])->get();
+        return response()->json(['success' => true, $shows]);
         }
+
+        public function getCateVideo(Request $request)
+{
+        $dataCate = Cate::where('id',$request->id)->with('video')->get();
+        //dd('$dataCate');
+        return response()->json(['success' => true, $dataCate]);
+}
 
 public function Edit(Request $request, $id)
         {
@@ -59,14 +67,11 @@ public function Edit(Request $request, $id)
         }
 }
 
-public function getVideos(Request $request)
+public function getCate(Request $request)
 {
-        $dataCate = video::all();
+        $dataCate = Cate::where('id',$request->id)->with('video')->get();
         //dd('$dataCate');
         return response()->json($dataCate);
 }
-
-
-
 
 }
