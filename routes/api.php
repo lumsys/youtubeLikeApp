@@ -24,6 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::post('login', 'AuthController@login');
      Route::post('register', 'AuthController@register');
      Route::get('social/login', [AuthController::class, 'socialLogin']);
+     Route::get('get-user-videos/{user_id}', 'VimeoController@getUserVideos');
+     Route::get('get-all-videos', 'VimeoController@getAllVideo');
+     Route::post('upload-video', 'VimeoController@uploadVideo');
     
         //E-Commerce Routes Starts Here  
         Route::post('createProduct', 'ProductController@create');
@@ -31,6 +34,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('getProduct/{id}', 'ProductController@getProduct');
         Route::put('UpdateProduct/{id}', 'ProductController@updateProduct');
         Route::delete('deleteProduct/{id}', 'ProductController@deleteProduct');
+        Route::post('order', 'ProductController@checkout');
+
         //E-Commerce Routes Ends Here
      Route::middleware(['auth:api'])->group(function () {
      // User Update and related activity
