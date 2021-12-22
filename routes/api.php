@@ -24,9 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::post('login', 'AuthController@login');
      Route::post('register', 'AuthController@register');
      Route::get('social/login', [AuthController::class, 'socialLogin']);
-     Route::get('get-user-videos/{user_id}', 'VimeoController@getUserVideos');
-     Route::get('get-all-videos', 'VimeoController@getAllVideo');
-     Route::post('upload-video', 'VimeoController@uploadVideo');
     
         //E-Commerce Routes Starts Here  
         Route::post('createProduct', 'ProductController@create');
@@ -34,26 +31,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('getProduct/{id}', 'ProductController@getProduct');
         Route::put('UpdateProduct/{id}', 'ProductController@updateProduct');
         Route::delete('deleteProduct/{id}', 'ProductController@deleteProduct');
-        Route::post('order', 'ProductController@checkout');
-
         //E-Commerce Routes Ends Here
      Route::middleware(['auth:api'])->group(function () {
      // User Update and related activity
         Route::get('details', 'AuthController@details');
         Route::get('logout', 'AuthController@logout');
-        Route::post('updateProfile', 'AuthController@updateProfile');
+         Route::post('updateProfile', 'AuthController@updateProfile');
         Route::post('updateProfileLater', 'AuthController@updateProfileLater');
+        Route::post('edit/{id}', 'AuthController@edit');
+        Route::post('updateProfiless', 'AuthController@updateProfiless');
         Route::post('edit/{id}', 'AuthController@edit');
         Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
         Route::post('storeVideo', 'YoutubeController@storeVideo');
         Route::post('category', 'CategoryController@category');
-        Route::get('getCate/{id}', 'YoutubeController@getCate');
+        Route::get('getCateVideo/{id}', 'YoutubeController@getCateVideo');
+         Route::get('getCate/{id}', 'YoutubeController@getCate');
         Route::get('getCateList', 'CategoryController@getCateList');
         Route::get('getUserList', 'AdminController@getUserList');
         Route::get('countUser', 'AdminController@countUser');
         Route::get('getAuthorList', 'AdminController@getAuthorList');
         Route::get('countAuthor', 'AdminController@countAuthor');
-        Route::get('getCateVideo', 'YoutubeController@getCateVideo');
-        Route::get('getCateg', 'YoutubeController@getCateg');
         });
     });       

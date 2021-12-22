@@ -37,7 +37,7 @@ public function storeVideo(Request $request)
         return response()->json($shows);
         }
 
-        public function getCateVideo(Request $request)
+       public function getCateVideo(Request $request)
 {
         $dataCate = Cate::where('id',$request->id)->with('video')->get();
         //dd('$dataCate');
