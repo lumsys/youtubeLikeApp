@@ -22,6 +22,8 @@ public function storeVideo(Request $request)
         $video->category_id = $category->id;
         //return response()->json([$video->category_id]);
         $video ->description=$request->input('description');
+        $video->name = $request->input('name');
+        $video->owner_description = $request->input('owner_description');
         if($request->video_image && $request->video_image->isValid())
                 {
                     $file_name = time().'.'.$request->video_image->extension();
@@ -32,7 +34,7 @@ public function storeVideo(Request $request)
         $video -> save();
         $user = User::where('id',$request->user()->id)->first()->id;
         $shows = video::where(['user_id' => $user])->get();
-        return response()->json(['success' => true, $shows]);
+        return response()->json($shows);
         }
 
         public function getCateVideo(Request $request)

@@ -42,7 +42,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('details', 'AuthController@details');
         Route::get('logout', 'AuthController@logout');
         Route::post('updateProfile', 'AuthController@updateProfile');
-        Route::post('updateProfiless', 'AuthController@updateProfiless');
+        Route::post('updateProfileLater', 'AuthController@updateProfileLater');
         Route::post('edit/{id}', 'AuthController@edit');
         Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
         Route::post('storeVideo', 'YoutubeController@storeVideo');
