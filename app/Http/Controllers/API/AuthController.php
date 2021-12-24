@@ -169,12 +169,19 @@ class AuthController extends Controller
     }
 
 
+    public function getProfile(){
+        $id = Auth::user();
+        $getProfileFirst = user::where('id', $id->id)->select('first_name', 'last_name', 'phone', 'address', 'profile_picture')->get();
+        return response()->json($getProfileFirst);
+
+    }
 
 
-    public function details() {
+    public function getProfileLater() {
         try {
-            $user = Auth::user();
-            return response()->json(["status" => "success", "error" => false, "data" => $user], 200);
+            $id = Auth::user();
+            $getProfileFirst = user::where('id', $id->id)->select('state', 'country', 'twitter', 'facebook', 'instalgram', 'organisation', 'note')->get();
+            return response()->json($getProfileFirst);
         }
         catch(NotFoundHttpException $exception) {
             return response()->json(["status" => "failed", "error" => $exception], 401);

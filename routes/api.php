@@ -51,5 +51,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('countUser', 'AdminController@countUser');
         Route::get('getAuthorList', 'AdminController@getAuthorList');
         Route::get('countAuthor', 'AdminController@countAuthor');
+        Route::get('getProfile/{id}', 'AuthController@getProfile');
+        Route::get('getProfileLater/{id}', 'AuthController@getProfileLater');
         });
     });       
