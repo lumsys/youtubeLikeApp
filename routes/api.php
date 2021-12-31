@@ -24,7 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
      Route::post('login', 'AuthController@login');
      Route::post('register', 'AuthController@register');
      Route::get('social/login', [AuthController::class, 'socialLogin']);
-    
+     Route::get('getCateVideo/{id}', 'YoutubeController@getCateVideo');
+     Route::get('getCate/{id}', 'YoutubeController@getCate');
+    Route::get('getCateList', 'CategoryController@getCateList');
         //E-Commerce Routes Starts Here  
         Route::post('createProduct', 'ProductController@create');
         Route::get('allProducts', 'ProductController@getAllProducts');
@@ -44,9 +46,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
         Route::post('storeVideo', 'YoutubeController@storeVideo');
         Route::post('category', 'CategoryController@category');
-        Route::get('getCateVideo/{id}', 'YoutubeController@getCateVideo');
-         Route::get('getCate/{id}', 'YoutubeController@getCate');
-        Route::get('getCateList', 'CategoryController@getCateList');
         Route::get('getUserList', 'AdminController@getUserList');
         Route::get('countUser', 'AdminController@countUser');
         Route::get('getAuthorList', 'AdminController@getAuthorList');
